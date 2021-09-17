@@ -8,7 +8,7 @@ const TodoList = () => {
     const dispatch = useDispatch<AppDispatch>();
 
     return (
-        <div>
+        <div className="todo-list">
             {todoList.map(todo => (
                 <TodoItem
                     key={todo.id}

@@ -15,4 +15,55 @@ body {
   box-shadow: 0 5px 20px #ccc;
   border: 1px solid lightgray;
   border-radius: 10px;
+  padding: 1rem;
+}
+.todo-form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* height: 30px; */
+  /* border: 1px solid lightgray; */
+  border-radius: 5px;
+  /* overflow: hidden; */
+}
+.todo-form .input , .todo-form button {
+  /* height: 100%; */
+  border: none;
+  outline: none;
+}
+.todo-form .input {
+  flex: 1;
+  font-size: 1rem;
+  padding: 0 5px;
+}
+.todo-form button {
+  padding: 0 5px;
+  cursor: pointer;
+}
+.todo-list {
+  padding: 1rem 0;
+}
+.todo-item {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  margin: 5px 0;
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 5px;
+}
+.todo-item p {
+  flex: 1;
+  text-align: left;
+  margin: 0 10px;
+  outline: none;
+}
+.todo-item button.MuiButton-root  {
+  font-size: 0.8em;
+  /* padding: 3px 6px; */
+  margin: 0 5px;
+}
+@media screen and (max-width: 768px) {
+  .todo-item {
+    flex-direction: column;
+  }
 }

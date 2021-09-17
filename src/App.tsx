@@ -6,8 +6,10 @@ function App() {
   
   return (
     <div className="app">
-      <TodoForm />
-      <TodoList />
+      <div className="todo-app">
+        <TodoForm />
+        <TodoList />
+      </div>
     </div>
   );
 }
