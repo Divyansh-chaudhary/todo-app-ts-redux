@@ -1,16 +1,17 @@
-import React, { KeyboardEvent, useRef, useState } from 'react'
+import { KeyboardEvent, useState } from 'react'
 import { useDispatch } from 'react-redux';
 import { Todo } from '../models/Todo';
 import { AppDispatch } from '../redux/store';
-import { removeTodo, setTodoStatus,updateTodo } from '../redux/todoSlice';
-import Button from "@material-ui/core/Button/Button";
-import { Checkbox } from '@material-ui/core';
-
+import { removeTodo, updateTodo } from '../redux/todoSlice';
+import styled  from 'styled-components';
+import EditIcon from "@material-ui/icons/Edit";
+import DeleteIcon from "@material-ui/icons/Delete";
+import SystemUpdateAltIcon from '@material-ui/icons/SystemUpdateAlt'
 
 const TodoItem = (props: Todo) => {
     const dispatch = useDispatch<AppDispatch>();
     const [editable,setEditable] = useState(false);
-    const [value] = useState(props.description);
+    const [value, setValue] = useState(props.description);
 
     const handleEdit = () => {
         setEditable(true);
@@ -23,43 +24,92 @@ const TodoItem = (props: Todo) => {
         }
     }
 
-    let pStyle = {
-        textDecoration: `${props.completed? "line-through": "none"}`, 
-        borderBottom: `${editable ? "1px solid black" : "none"}`
+    const handleKeyPress = (event:KeyboardEvent<HTMLInputElement>) => {
+        if(event.key === "Enter") {
+            handleUpdate();
+        } else {
+            setValue(event.currentTarget.innerText);
+        }
     }
 
     return (
-        <div className="todo-item">
-            
-            <p contentEditable={editable} 
-                onKeyPress={(event: KeyboardEvent<HTMLInputElement>) => {
-                    console.log(event.key)
-                    event.key === "Enter" && handleUpdate()
-                }} style={pStyle}>
-                {value}
-            </p>
-            <div className="actions">
-                <Button variant="contained" color="secondary" onClick={()=>dispatch(removeTodo(props.id))}>delete</Button>
-                {!props.completed ? (
-                    editable
-                    ?
-                    <Button color="primary" variant="contained" onClick={handleUpdate}>update</Button> 
-                    : 
-                    <Button color="primary" variant="contained" onClick={handleEdit}>Edit</Button>
-                ):""}
-                <Checkbox 
-                    checked={props.completed} 
-                    onChange={()=>{
-                        dispatch(setTodoStatus({completed: !props.completed, id:props.id}))
-                    }} 
-                    onKeyPress={(event: KeyboardEvent<HTMLButtonElement>) => {
-                        console.log(event.key)
-                        event.key === "Enter" && handleUpdate()
-                    }} 
-                />
-            </div>
-        </div>
+        <Item>
+            {editable ? ( <EditInput type="text" value={value} onChange={e=>setValue(e.target.value)} />) : <Text onKeyPress={handleKeyPress}>{value}</Text>}
+            <ActionBtns className="actions">
+                <EditWrapper>
+                    {
+                        !props.completed ? (
+                            editable
+                            ?
+                            <SystemUpdateAltIcon titleAccess="Update" onClick={handleUpdate} />
+                            : 
+                            <EditIcon titleAccess="Edit" onClick={handleEdit} />
+                        )
+                        :""
+                    }
+                </EditWrapper>
+                <DeleteWrapper onClick={()=>dispatch(removeTodo(props.id))}>
+                    <DeleteIcon titleAccess="Delete" />
+                </DeleteWrapper>
+            </ActionBtns>
+        </Item>
     )
 }
 
-export default TodoItem
+export default TodoItem;
+
+
+const ActionBtns = styled.div`
+    overflow: hidden;
+    width:0;
+    transition all 0.2s ease-in;
+    display:flex;
+    justify-content: flex-end;
+`;
+const Item = styled.div`
+    background-color: rgba(202, 184, 255, 0.1);
+    margin: 5px 0;
+    width: 100%;
+    display: flex;
+    &:hover ${ActionBtns} {
+        width: 68px;
+    }
+`;
+const Text = styled.p`
+    border: none;
+    outline: none;
+    // border-bottom: ${p => p.contentEditable && "1px solid black"};
+    padding: 5px;
+    flex: 1;
+    background-color: rgba(202, 184, 255, 0.1);
+
+`;
+const EditInput = styled.input`
+    border: none;
+    outline: none;
+    border-bottom: 1px solid black;
+    padding: 5px;
+    flex: 1;
+    background-color: rgba(202, 184, 255, 0.1);
+    font-size: 1rem;
+`; 
+const EditWrapper = styled.div`
+    background: #FFC069;
+    color: white;
+    cursor: pointer;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    padding: 0 5px;
+    align-items: center;
+`;
+const DeleteWrapper = styled.div`
+    background: #FF5C58;
+    cursor: pointer;
+    height: 100%;
+    color: white;
+    padding: 0 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+`;

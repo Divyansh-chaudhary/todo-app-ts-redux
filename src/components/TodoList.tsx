@@ -1,14 +1,17 @@
-import React, { useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { AppDispatch, RootState } from '../redux/store'
+import {  useSelector } from 'react-redux'
+import styled from 'styled-components';
+import {  RootState } from '../redux/store'
 import TodoItem from './TodoItem';
+
+interface Btn {
+    grow: boolean
+}
 
 const TodoList = () => {
     const todoList = useSelector((state: RootState)=>state);
-    const dispatch = useDispatch<AppDispatch>();
 
     return (
-        <div className="todo-list">
+        <List grow={todoList.length > 0}>
             {todoList.map(todo => (
                 <TodoItem
                     key={todo.id}
@@ -17,8 +20,11 @@ const TodoList = () => {
                     completed={todo.completed}
                 />
             ))}
-        </div>
+        </List>
     )
 }
 
 export default TodoList
+const List = styled.section<Btn>`
+    padding: ${p => p.grow && "1rem 0"};
+`;

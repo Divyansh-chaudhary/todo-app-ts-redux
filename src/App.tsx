@@ -1,15 +1,24 @@
-import TodoForm from "./components/TodoForm";
-import TodoList from "./components/TodoList";
+import { Switch, Route, BrowserRouter } from "react-router-dom";
 import "./App.css"
+import Profile from "./components/Profile";
+import Navbar from "./components/Navbar";
+import TodoApp from "./components/TodoApp";
 
 function App() {
   
   return (
     <div className="app">
-      <div className="todo-app">
-        <TodoForm />
-        <TodoList />
-      </div>
+      <BrowserRouter>
+        <Navbar />
+        <Switch>
+          <Route path="/" exact>
+            <TodoApp />
+          </Route>
+          <Route path="/profile" exact>
+            <Profile />
+          </Route>
+        </Switch>
+      </BrowserRouter>
     </div>
   );
 }

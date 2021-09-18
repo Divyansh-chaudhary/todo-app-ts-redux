@@ -8,9 +8,26 @@ export const todoSlice = createSlice({
     name: "todos",
     initialState,
     reducers: {
+        getTodos: (state) => {
+            // try {
+            //     const serialisedState = localStorage.getItem("todos");
+            //     if (serialisedState === null) return undefined;
+            //     state = JSON.parse(serialisedState);
+            // } catch (e) {
+            //     console.warn(e);
+            //     return undefined;
+            // }
+        },
         addTodo: {
             reducer: (state, action: PayloadAction<Todo>) => {
-                state.push(action.payload)
+                state.push(action.payload);
+                // try {
+                //     const serialisedState = JSON.stringify(state);
+                //     localStorage.setItem("todos", serialisedState);
+                // } catch (e) {
+                //     console.warn(e);
+                // }
+                
             },
             prepare: (description: string ) => ({
                 payload: {
@@ -22,7 +39,10 @@ export const todoSlice = createSlice({
         },
         removeTodo:(state, action: PayloadAction<string>)=>{
             const index = state.findIndex(todo => todo.id === action.payload);
-            state.splice(index,1)
+            state.splice(index,1);
+        },
+        removeAll: (state) => {
+            state.splice(0);
         },
         setTodoStatus:(state, action: PayloadAction<{completed: boolean, id: string}>)=>{
             const index = state.findIndex(todo => todo.id === action.payload.id);
@@ -35,5 +55,5 @@ export const todoSlice = createSlice({
     }
 });
 
-export const {addTodo, removeTodo,updateTodo, setTodoStatus} = todoSlice.actions;
+export const {addTodo,getTodos,removeAll, removeTodo,updateTodo, setTodoStatus} = todoSlice.actions;
 export default todoSlice.reducer;
