@@ -78,8 +78,7 @@ const Item = styled.div`
 const Text = styled.p`
     border: none;
     outline: none;
-    // border-bottom: ${p => p.contentEditable && "1px solid black"};
-    padding: 5px;
+    padding: 10px 5px;
     flex: 1;
     background-color: rgba(202, 184, 255, 0.1);
 
@@ -87,8 +86,9 @@ const Text = styled.p`
 const EditInput = styled.input`
     border: none;
     outline: none;
-    border-bottom: 1px solid black;
-    padding: 5px;
+    border-bottom: 1px solid rgb(202,185,255);
+    padding: 3px;
+    margin: 10px 5px;
     flex: 1;
     background-color: rgba(202, 184, 255, 0.1);
     font-size: 1rem;
